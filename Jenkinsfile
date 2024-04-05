@@ -4,26 +4,29 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'url_de_votre_depot_git'
+                git 'https://github.com/A-nicolas/pipeline-jenkins.git'
             }
         }
         stage('Build') {
             steps {
                 script {
-                    docker.build('nom_de_votre_image:tag')
+                    docker.build('nicolasdata/pipeline-jenkins:latest')
                 }
             }
         }
         stage('Test') {
             steps {
-                // Étapes de test de votre application
+                script{
+                    sh 'pip install -r requirements.txt'
+                    sh 'pytest'
+                }
             }
         }
         stage('Publish') {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'credentials_id_docker_hub') {
-                        docker.image('nom_de_votre_image:tag').push()
+                        docker.image('nicolasdata/pipeline-jenkins:latest').push()
                     }
                 }
             }
