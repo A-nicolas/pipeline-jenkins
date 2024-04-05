@@ -10,7 +10,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    docker.build('nicolasdata/pipeline-jenkins:latest')
+                    docker.build('nicolasdata/pipeline-jenkins')
                 }
             }
         }
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'credentials_id_docker_hub') {
-                        docker.image('nicolasdata/pipeline-jenkins:latest').push()
+                        docker.image('nicolasdata/pipeline-jenkins').push()
                     }
                 }
             }
